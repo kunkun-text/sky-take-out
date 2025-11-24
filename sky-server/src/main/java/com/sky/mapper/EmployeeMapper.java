@@ -27,7 +27,6 @@ public interface EmployeeMapper {
 
     //分页查询员工
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
-
     //启用或禁用员工账号
 //     @Update("update employee set status =#{status} " +
 //            "where id = #{id}")

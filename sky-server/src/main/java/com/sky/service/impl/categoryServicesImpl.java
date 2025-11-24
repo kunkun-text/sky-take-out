@@ -2,15 +2,21 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.context.BaseContext;
+import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.mapper.categoryMapper;
 import com.sky.result.PageResult;
 import com.sky.service.categoryService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.sky.constant.StatusConstant.ENABLE;
 
 @Service
 public class categoryServicesImpl implements categoryService {
@@ -30,5 +36,44 @@ public class categoryServicesImpl implements categoryService {
 
         return new PageResult(total,records);
 
+    }
+    //新增菜品分类
+    public void add(CategoryDTO categoryDTO){
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
+
+        //补充菜品信息
+        category.setStatus(ENABLE);
+        category.setCreateTime(LocalDateTime.now());
+        category.setUpdateTime(LocalDateTime.now());
+        category.setCreateUser(BaseContext.getCurrentId());
+        category.setUpdateUser(BaseContext.getCurrentId());
+
+        categoryMapper.insert(category);
+    }
+
+    //启用或禁用菜品分类
+    public void startOrStop(Integer status, Long id){
+
+        Category category = new Category();
+        category.setStatus(status);
+        category.setId(id);
+
+        categoryMapper.update(category);
+    }
+
+    //删除对应id菜品分类
+    public void delete(Integer id){
+        categoryMapper.delete(id);
+    }
+
+    //修改员工对应数据
+    public void update(CategoryDTO categoryDTO){
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());
+
+        categoryMapper.update(category);
     }
 }
