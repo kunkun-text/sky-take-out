@@ -58,4 +58,14 @@ public class JwtTokenAdminInterceptor implements HandlerInterceptor {
             return false;
         }
     }
+
+    /**
+     * 请求处理完成后执行（无论成功/失败，都会清理 ThreadLocal）
+     */
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        // 关键：清理 ThreadLocal 中的数据，避免线程复用导致的问题
+        BaseContext.removeCurrentId();
+        log.debug("清理 ThreadLocal 中的员工ID");
+    }
 }
