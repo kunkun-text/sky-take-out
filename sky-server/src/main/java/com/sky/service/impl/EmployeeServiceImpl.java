@@ -103,4 +103,38 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(total,records);
     }
 
+    //启用禁用员账号
+    public void startOrStop(Integer status, Long id) {
+
+//        employeeMapper.startOrStop(status,id);
+
+        Employee employee = new Employee();
+        employee.setStatus(status);
+        employee.setId(id);
+
+//        Employee employee = Employee.builder()
+//                .status(status)
+//                .id(id)
+//                .build();
+
+        employeeMapper.update(employee);
+    }
+
+    //根据id查询员工信息
+    public Employee getById(Long id) {
+        Employee employee =  employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    //编辑员工信息
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        BeanUtils.copyProperties(employeeDTO, employee);
+
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
+    }
 }
