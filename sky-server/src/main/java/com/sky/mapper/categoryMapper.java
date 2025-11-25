@@ -9,6 +9,9 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface categoryMapper {
@@ -28,4 +31,7 @@ public interface categoryMapper {
 
     @Delete("delete from category where id = #{id}")
     void delete(Integer id);
+    //根据类型查询分类
+    @Select("select * from category where type = #{type}")
+    List<Category> list(Integer type);
 }

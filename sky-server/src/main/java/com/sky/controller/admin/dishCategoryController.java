@@ -4,7 +4,6 @@ package com.sky.controller.admin;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
-import com.sky.mapper.categoryMapper;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.categoryService;
@@ -13,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 //菜品分类管理
 @RestController
@@ -69,6 +70,15 @@ public class dishCategoryController {
         log.info("修改的数据为{}", categoryDTO);
         categoryService.update(categoryDTO);
         return Result.success();
+    }
+
+    //根据类型查询分类
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> list(@RequestParam Integer type) {
+        log.info("所查询分类数据为：{}", type);
+        List<Category> categoryList = categoryService.list(type);
+        return Result.success(categoryList);
     }
 
 

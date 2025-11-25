@@ -99,4 +99,9 @@ public class categoryServicesImpl implements categoryService {
 
         categoryMapper.update(category);
     }
+
+    //根据类型查询分类
+    public List<Category> list(Integer type) {
+        return categoryMapper.list(type);
+    }
 }
