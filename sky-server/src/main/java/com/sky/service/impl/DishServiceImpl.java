@@ -49,7 +49,7 @@ public class DishServiceImpl implements DishService {
         if(flavors !=null && flavors.size()>0){
 
             flavors.forEach(dishflavor->{
-                dishflavor.setDishId(dishDTO.getId());
+                dishflavor.setDishId(dishId);
             });
 
             //向口味表插入n条数据
@@ -139,5 +139,10 @@ public class DishServiceImpl implements DishService {
         dish.setId(id);
 
         dishMapper.startOrStop(dish);
+    }
+
+     //根据分类id查询菜品
+    public List<Dish> getByIds(Long categoryId) {
+        return dishMapper.getByIds(categoryId);
     }
 }

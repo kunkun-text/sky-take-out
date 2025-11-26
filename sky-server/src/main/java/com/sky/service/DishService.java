@@ -3,6 +3,7 @@ package com.sky.service;
 
 import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public interface DishService {
 
     //新增菜品和对应口味
-    public void saveWithFlavor(DishDTO dishDTO);
+    void saveWithFlavor(DishDTO dishDTO);
     //分页查询菜品
     PageResult pageQuery(DishPageQueryDTO dishPageQueryDTO);
     //菜品批量删除
@@ -22,4 +23,6 @@ public interface DishService {
     void updateWithFlavor(DishDTO dishDTO);
     //起售或停售菜品
     void startOrStop(Integer status, Long id);
+    //根据分类id查询菜品
+    List<Dish> getByIds(Long categoryId);
 }

@@ -40,4 +40,7 @@
         </set>
         where id = #{id}
     </update>
+    <update id="startOrStop">
+        update dish set status = #{status} where id = #{id}
+    </update>
 </mapper>

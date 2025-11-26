@@ -40,7 +40,8 @@ public interface dishMapper {
     @AutoFIll(value = OperationType.UPDATE)
     void update(Dish dish);
     //起售或停售对应菜品
-    @AutoFIll(value = OperationType.UPDATE)
-    @Update("update dish set status = #{status} where id = #{id}")
     void startOrStop(Dish dish);
+    //根据分类id查询菜品
+    @Select("select * from dish where category_id = #{categoryId}")
+    List<Dish> getByIds(Long categoryId);
 }
