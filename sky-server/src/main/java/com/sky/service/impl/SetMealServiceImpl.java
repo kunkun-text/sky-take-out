@@ -96,7 +96,7 @@ public class SetMealServiceImpl implements SetMealService {
         //删除对应套餐信息
         setMealDishMapper.deleteById(setmealIds);
         //删除套餐所对应的菜品信息
-        setMealDishMapper.deleteBratch(setmealIds);
+        setMealDishMapper.deleteBatch(setmealIds);
     }
     //起售停售套餐
     public void startOrStop(Integer status, Long setmealId){
