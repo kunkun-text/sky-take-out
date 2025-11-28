@@ -3,21 +3,18 @@ package com.sky.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sky.constant.MessageConstant;
-import com.sky.context.BaseContext;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.categoryMapper;
-import com.sky.mapper.dishMapper;
+import com.sky.mapper.DishMapper;
 import com.sky.mapper.setMealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.categoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.sky.constant.StatusConstant.DISABLE;
@@ -29,7 +26,7 @@ public class categoryServicesImpl implements categoryService {
     categoryMapper categoryMapper;
 
     @Autowired
-    dishMapper dishMapper;
+    DishMapper dishMapper;
 
     @Autowired
     setMealMapper setMealMapper;
@@ -102,6 +99,12 @@ public class categoryServicesImpl implements categoryService {
 
     //根据类型查询分类
     public List<Category> list(Integer type) {
-        return categoryMapper.list(type);
+        if(type==null){
+            return categoryMapper.listAll();
+        }
+        else return categoryMapper.list(type);
     }
+
+
+
 }

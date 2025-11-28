@@ -11,7 +11,7 @@ import com.sky.entity.DishFlavor;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.SetMealDishMapper;
-import com.sky.mapper.dishMapper;
+import com.sky.mapper.DishMapper;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
@@ -20,13 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DishServiceImpl implements DishService {
 
     @Autowired
-    private dishMapper dishMapper;
+    private DishMapper dishMapper;
     @Autowired
     private DishFlavorMapper dishFlavorMapper;
     @Autowired
@@ -85,7 +86,7 @@ public class DishServiceImpl implements DishService {
         }
         //删除菜品
 //        ids.forEach(id->{
-//            dishMapper.deleteById(id);
+//            DishMapper.deleteById(id);
 //            //删除菜品关联口味数据
 //            dishFlavorMapper.deleteByDishId(id);
 //        });
@@ -108,6 +109,32 @@ public class DishServiceImpl implements DishService {
         dishVo.setFlavors(dishFlavors);
 
         return dishVo;
+    }
+
+    //根据分类id查询菜品及口味
+    public List<DishVO> getByCategoryIdWithFlavor(Long categoryId) {
+
+        // 1. 根据分类ID查询所有菜品（注意：这里应该返回List<Dish>）
+        List<Dish> dishList = dishMapper.selectByCategoryId(categoryId);
+//        if (dishList == null || dishList.isEmpty()) {
+//            return null;
+//        }
+
+        // 2. 转换为DishVO并查询口味
+        List<DishVO> dishVOList = new ArrayList<>();
+        for (Dish dish : dishList) {
+            DishVO dishVO = new DishVO();
+            // 复制菜品基本信息
+            BeanUtils.copyProperties(dish, dishVO);
+
+            // 查询该菜品的口味
+            List<DishFlavor> flavors = dishFlavorMapper.selectByDishId(dish.getId());
+            dishVO.setFlavors(flavors);
+
+            dishVOList.add(dishVO);
+        }
+
+        return dishVOList;
     }
 
     //根据id修改菜品对应信息

@@ -12,6 +12,7 @@ import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.SetMealDishMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetMealService;
+import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,4 +106,17 @@ public class SetMealServiceImpl implements SetMealService {
         setmeal.setId(setmealId);
         setMealDishMapper.startOrStop(setmeal);
     }
+
+    //根据categoryId查询菜品
+    public List<Setmeal> listByCategoryId(Integer categoryId) {
+        List<Setmeal> list = setMealDishMapper.listByCategoryId(categoryId);
+        return list;
+    }
+
+    //根据套餐id查询菜品信息
+    public List<DishItemVO> getDishBySetmealId(Long setmealId){
+        List<DishItemVO> list =  setMealDishMapper.selectByDishId(setmealId);
+        return list;
+    }
+
 }

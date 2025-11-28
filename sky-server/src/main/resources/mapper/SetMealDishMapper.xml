@@ -60,5 +60,10 @@
         </where>
         order by s.create_time desc
     </select>
+    <select id="selectByDishId" resultType="com.sky.vo.DishItemVO">
+        select s.name, s.copies, d.image, d.description from setmeal_dish s
+        left outer join dish d on s.dish_id = d.id
+        where s.setmeal_id = #{setmealId}
+    </select>
 
 </mapper>

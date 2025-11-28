@@ -16,6 +16,8 @@ import java.util.List;
 @Mapper
 public interface categoryMapper {
 
+
+
     //分页查询菜品信息
     Page<Category> page(CategoryPageQueryDTO categoryPageQueryDTO);
 
@@ -31,7 +33,12 @@ public interface categoryMapper {
 
     @Delete("delete from category where id = #{id}")
     void delete(Integer id);
+
     //根据类型查询分类
     @Select("select * from category where type = #{type}")
     List<Category> list(Integer type);
+    //不传入type查询全部
+    @Select("select * from category")
+    List<Category> listAll();
+
 }
