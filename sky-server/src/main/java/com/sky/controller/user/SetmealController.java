@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user/setmeal")
-@Api("用户端套餐接口")
+@Api(tags = "用户端套餐接口")
 @Slf4j
 public class SetmealController {
 
@@ -30,6 +31,7 @@ public class SetmealController {
 
     @GetMapping("/list")
     @ApiOperation("根据分类id查询套餐")
+    @Cacheable(cacheNames = "setmealCache",key = "#categoryId")
     public Result<List<Setmeal>> listById(Integer categoryId) {
         log.info("要查询的套餐分类id为{}", categoryId);
         List<Setmeal> list= setMealService.listByCategoryId(categoryId);

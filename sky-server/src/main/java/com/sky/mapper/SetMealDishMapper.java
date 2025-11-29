@@ -9,10 +9,7 @@ import com.sky.entity.SetmealDish;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -49,7 +46,7 @@ public interface SetMealDishMapper {
     //起售/停售套餐
     void startOrStop(Setmeal setmeal);
 
-    @Select("select * from setmeal where category_id = #{categoryId}")
+    @Select("select * from setmeal where category_id = #{categoryId} and status = 1")
     List<Setmeal> listByCategoryId(Integer categoryId);
     //根据套餐id查询菜品信息
     List<DishItemVO> selectByDishId(Long setmealId);
