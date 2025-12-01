@@ -44,4 +44,6 @@ public interface OrderService {
     void complete(Long id);
     //模拟用户支付
     void payment(OrdersPaymentDTO ordersPaymentDTO);
+    //用户催单
+    void reminder(Long id);
 }
