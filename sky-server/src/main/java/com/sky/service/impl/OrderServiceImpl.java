@@ -286,6 +286,7 @@ public class OrderServiceImpl implements OrderService {
         Orders orders = orderMapper.selectById(ordersCancelDTO.getId());
         if(orders!=null && orders.getStatus()==4){
             //先退款
+            orderMapper.payback(ordersCancelDTO);
         }
         orderMapper.cancel(ordersCancelDTO);
     }
@@ -362,6 +363,7 @@ public class OrderServiceImpl implements OrderService {
         webSocketServer.sendToAllClient(json);
 
     }
+
 
 
 }

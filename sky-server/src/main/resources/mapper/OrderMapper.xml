@@ -54,5 +54,61 @@
         </where>
         order by order_time desc
     </select>
+    <select id="sumByMap" resultType="java.lang.Double">
+        select sum(amount) from orders
+        <where>
+            <if test="beginTime != null">
+                and order_time &gt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt;= #{endTime}
+            </if>
+        </where>
+    </select>
+    <select id="getAllOrders" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="beginTime != null">
+                and order_time &gt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt; #{endTime}
+            </if>
+            and pay_status in (1,2)
+        </where>
+    </select>
+    <select id="getRightOrders" resultType="java.lang.Integer">
+        select count(id) from orders
+        <where>
+            <if test="beginTime != null">
+                and order_time &gt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and order_time &lt;= #{endTime}
+            </if>
+            and status = 5
+        </where>
+    </select>
+    <select id="getTop10" resultType="com.sky.dto.GoodsSalesDTO">
+        select
+        d.name,
+        sum(d.number) as number
+        from order_detail d
+        -- 内连接符合条件的订单表（替代 IN 子查询）
+        INNER JOIN orders o ON d.order_id = o.id
+        <where>
+            o.status = 5
+            <if test="beginTime != null">
+                and o.order_time &gt; #{beginTime}
+            </if>
+            <if test="endTime != null">
+                and o.order_time &lt;= #{endTime}
+            </if>
+        </where>
+        group by d.name
+        order by number desc
+        limit 10
+    </select>
+
 </mapper>
 
